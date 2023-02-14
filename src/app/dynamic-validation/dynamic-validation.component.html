@@ -1,0 +1,22 @@
+<h2 style="text-align: center">Dynamic Form Validation</h2><hr>
+
+<form [formGroup]="demoForm" (ngSubmit)="submitForm()">
+  <input formControlName="input1"/>
+  <input formControlName="input2"/>
+  <select formControlName="select1">
+    <option value="">--Select One--</option>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+  </select>
+  <select formControlName="select2">
+    <option value="">--Select One--</option>
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+  </select>
+  <ng-select [items]="lpTypeList"
+             bindValue="value" bindLabel="name"
+             formControlName="lpTypeVal" placeholder="Select LP Type">
+  </ng-select>
+
+  <button type="submit">Submit</button>
+</form>
