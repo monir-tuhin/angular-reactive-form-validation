@@ -50,13 +50,13 @@ export class DynamicValidationComponent implements OnInit {
     const elementNgSelect = <any> document.querySelector('ng-select[formControlName="' + controlName + '"]');
     if (elementInput) {
       setTimeout(() => elementInput.focus(), 0);
-      return this.toastr.warning(controlName + ' is required');
+      return this.toastr.warning(elementInput.ariaLabel + ' is required');
     } else if (elementSelect) {
       setTimeout(() => elementSelect.focus(), 0);
-      return this.toastr.warning(controlName + ' is required');
+      return this.toastr.warning(elementSelect.ariaLabel + ' is required');
     } else if (elementNgSelect) {
       setTimeout(() => elementNgSelect.focus(), 0);
-      return this.toastr.warning(controlName + ' is required');
+      return this.toastr.warning(elementNgSelect.ariaLabel + ' is required');
     }
   }
 

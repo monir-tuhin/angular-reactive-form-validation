@@ -1,20 +1,22 @@
 <h2 style="text-align: center">Dynamic Form Validation</h2><hr>
 
 <form [formGroup]="demoForm" (ngSubmit)="submitForm()">
-  <input formControlName="input1"/>
-  <input formControlName="input2"/>
-  <select formControlName="select1">
-    <option value="">--Select One--</option>
-    <option value="option1">Option 1</option>
-    <option value="option2">Option 2</option>
+  <input formControlName="input1" [attr.aria-label]="'Student name'" placeholder="Student name"/>
+  <input formControlName="input2" [attr.aria-label]="'Email'" placeholder="Email"/>
+  <select formControlName="select2" [attr.aria-label]="'Division'">
+    <option value="">--Select Division--</option>
+    <option value="option1">Dhaka</option>
+    <option value="option2">Khulna</option>
   </select>
-  <select formControlName="select2">
-    <option value="">--Select One--</option>
-    <option value="option1">Option 1</option>
-    <option value="option2">Option 2</option>
+  <select formControlName="select1"
+          [attr.aria-label]="'District'">
+    <option value="">--Select District--</option>
+    <option value="option1">Manikgonj</option>
+    <option value="option2">Satkhira</option>
   </select>
   <ng-select [items]="lpTypeList"
              bindValue="value" bindLabel="name"
+             [attr.aria-label]="'LP type'"
              formControlName="lpTypeVal" placeholder="Select LP Type">
   </ng-select>
 
