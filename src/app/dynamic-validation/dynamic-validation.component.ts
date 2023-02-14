@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {NgSelectComponent} from "@ng-select/ng-select";
 
 @Component({
   selector: 'app-dynamic-validation',
@@ -10,6 +11,10 @@ import {ToastrService} from "ngx-toastr";
 export class DynamicValidationComponent implements OnInit {
   demoForm: FormGroup;
   lpTypeList: any[] = [{name: 'Ward', value: 'WARD'}, {name: 'Service Holder', value: 'SERVICE-HOLDER'}];
+  genderList: any[] = [{name: 'Male', value: 'male'}, {name: 'Female', value: 'female'}];
+
+  @ViewChild('lpType') lpType: NgSelectComponent;
+  @ViewChild('gender') gender: NgSelectComponent;
 
   constructor(private fb: FormBuilder,
               private toastr: ToastrService) {
@@ -18,7 +23,8 @@ export class DynamicValidationComponent implements OnInit {
       input2: [''],
       select1: ['', Validators.required],
       select2: [''],
-      lpTypeVal: ['', Validators.required]
+      lpTypeVal: [null, Validators.required],
+      gender: [null, Validators.required]
     });
   }
 
@@ -26,19 +32,17 @@ export class DynamicValidationComponent implements OnInit {
   }
 
   submitForm() {
-    this.validateForm();
+    this.validateForm(this.demoForm);
     if (this.demoForm.valid) {
       console.log(this.demoForm.value);
     }
   }
 
-  validateForm() {
-    if (!this.demoForm.valid) {
+  validateForm(form: FormGroup) {
+    if (!form.valid) {
       // @ts-ignore
       const invalidControls = Object.keys(this.demoForm.controls).filter(controlName => this.demoForm.get(controlName).invalid);
       const firstInvalidControl = invalidControls[0];
-      // const firstInvalidControlElement = this.demoForm.get(firstInvalidControl).value;
-      // firstInvalidControlElement.focus();
       this.autofocus(firstInvalidControl);
     }
   }
@@ -48,6 +52,7 @@ export class DynamicValidationComponent implements OnInit {
     const elementInput = <any> document.querySelector('input[formControlName="' + controlName + '"]');
     const elementSelect = <any> document.querySelector('select[formControlName="' + controlName + '"]');
     const elementNgSelect = <any> document.querySelector('ng-select[formControlName="' + controlName + '"]');
+
     if (elementInput) {
       setTimeout(() => elementInput.focus(), 0);
       return this.toastr.warning(elementInput.ariaLabel + ' is required');
@@ -55,8 +60,17 @@ export class DynamicValidationComponent implements OnInit {
       setTimeout(() => elementSelect.focus(), 0);
       return this.toastr.warning(elementSelect.ariaLabel + ' is required');
     } else if (elementNgSelect) {
-      setTimeout(() => elementNgSelect.focus(), 0);
+      // this.onFocusNgSelect(elementNgSelect.id);
+      this.onFocusNgSelect(elementNgSelect.id);
       return this.toastr.warning(elementNgSelect.ariaLabel + ' is required');
+    }
+  }
+
+  onFocusNgSelect(elementId: string) {
+    if (elementId == 'lpTypeId') { // static string need to make enum
+      setTimeout(() =>  this.lpType.focus(), 0);
+    } else if (elementId == 'genderId') { // static string need to make enum
+      setTimeout(() =>  this.gender.focus(), 0);
     }
   }
 
